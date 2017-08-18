@@ -5,6 +5,7 @@ public class Rover {
 	int y;
 	char direction;
 	
+	
 	public Rover() {
 		
 	}
@@ -31,6 +32,58 @@ public class Rover {
 	}
 	public void setDirection(char direction) {
 		this.direction = direction;
+	}
+	
+	public boolean move(char cmd){
+		this.updateDirection(cmd);
+		
+		
+		return false;
+	}
+	
+	public void updateDirection(char cmd){
+		switch(this.direction){
+			case'N':
+				if(cmd=='R'){
+					
+				} else if(cmd=='L'){
+					
+				} else if(cmd=='M'){
+					
+				} else {}
+			break;
+			
+			case'L':
+				if(cmd=='R'){
+					
+				} else if(cmd=='L'){
+					
+				} else if(cmd=='M'){
+					
+				} else {}
+			break;
+			case'S':
+				if(cmd=='R'){
+					
+				} else if(cmd=='L'){
+					
+				} else if(cmd=='M'){
+					
+				} else {}
+			break;
+			case'O':
+				if(cmd=='R'){
+					
+				} else if(cmd=='L'){
+					
+				} else if(cmd=='M'){
+					
+				} else {}
+			break;
+			
+			
+		
+		}
 	}
 
 }
