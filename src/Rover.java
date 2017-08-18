@@ -33,51 +33,45 @@ public class Rover {
 	public void setDirection(char direction) {
 		this.direction = direction;
 	}
+
 	
-	public boolean move(char cmd){
-		this.updateDirection(cmd);
-		
-		
-		return false;
-	}
-	
-	public void updateDirection(char cmd){
+	public void updatePosition(char cmd){
 		switch(this.direction){
 			case'N':
 				if(cmd=='R'){
-					
+					this.direction = 'O';
 				} else if(cmd=='L'){
-					
+					this.direction = 'L';
 				} else if(cmd=='M'){
-					
+					this.x +=1;
 				} else {}
 			break;
 			
 			case'L':
 				if(cmd=='R'){
-					
+					this.direction = 'N';
 				} else if(cmd=='L'){
-					
+					this.direction = 'S';
 				} else if(cmd=='M'){
-					
+					this.y +=1;
 				} else {}
 			break;
 			case'S':
 				if(cmd=='R'){
-					
+					this.direction = 'L';
 				} else if(cmd=='L'){
-					
+					this.direction = 'O';
 				} else if(cmd=='M'){
-					
+					this.x -=1;
 				} else {}
 			break;
 			case'O':
 				if(cmd=='R'){
-					
+					this.direction = 'S';
 				} else if(cmd=='L'){
-					
+					this.direction = 'N';
 				} else if(cmd=='M'){
-					
+					this.y +=1;
 				} else {}
 			break;
 			
