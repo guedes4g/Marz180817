@@ -74,9 +74,6 @@ public class Rover {
 					this.y +=1;
 				} else {}
 			break;
-			
-			
-		
 		}
 	}
 
