@@ -40,7 +40,20 @@ public class MarsRover {
 	}
 
 	public void read() {
-
+		String planSize, roverSituation, roverCommands;
+		do { 
+			System.out.println("Informe o tamanho do plano separando largura e altura por espaço (x y):");
+			planSize = in.nextLine();
+		} while(!loadManager(planSize));
+		
+		do { 
+			System.out.println("Informe a posição inicial do rover e sua direção (x y direção)");
+			roverSituation = in.nextLine();
+			System.out.println("Informe as instruções para que o rover explore o plano(Apenas caracteres L, R, M, sem espaços.):");
+			roverCommands = in.nextLine();
+			loadRover(roverSituation, roverCommands);
+		} while(!loadRover(roverSituation, roverCommands));
+		
 	}
 
 	public void readFile() {
@@ -80,13 +93,16 @@ public class MarsRover {
 		try {
 			x = Integer.parseInt(roverSituationSplited[0]);
 			y = Integer.parseInt(roverSituationSplited[1]);
+			direction = roverSituationSplited[3].charAt(0);
 		}
 		catch(Exception e) {
 			return false;
 		}
-//		Aqui é chamado algum método da classe RoverManager,
-//		passando a posição, direção e comandos de um rover, ex:
-//		manager.addRover(x, y, direction, roverCommands);
+		if(!manager.validatePosition(x, y)) {
+			System.out.println("Posição inicial do rover ja está ocupada ou valores fora das dimensões do plano.");
+			return false;
+		}
+		manager.addRover(x, y, direction, roverCommands);
 		return true;
 	}
 
@@ -103,13 +119,14 @@ public class MarsRover {
 		catch(Exception e) {
 			return false;
 		}
-//		Aqui é instanciado o manager com as coordenadas do canto superior direito como parâmetro, ex:
-//		manager = new RoverManager(x, y);
+		this.manager = new RoverManager(x, y);
 		return true;
 	}
 
 	public void printResults() {
+		System.out.println("Posição de todos os rovers:");
+//		manager.printAllRovers();
 //		Esse método irá printar a situação de cada rover conforme output no enunciado do exercício.
 //		Tais informações serão buscadas na classe RoverManager.
-	};
+	}
 }
