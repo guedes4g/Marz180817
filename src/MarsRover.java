@@ -133,7 +133,7 @@ public class MarsRover {
 		manager = n;
 	}
 
-	public void printResults() {
+	public static void printResults() {
 		System.out.println("Posi��o de todos os rovers:");
 		manager.printAllRovers();
 	}
