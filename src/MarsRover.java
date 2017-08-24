@@ -8,22 +8,21 @@ import java.util.Scanner;
 
 public class MarsRover {
 
-	private RoverManager manager;
-	private Scanner in;
-
-	public MarsRover() {
-		in = new Scanner (System.in);
+	public static void main(String[] args) {
 		menu();
 	}
 
-	public void menu() {
+	private static RoverManager manager;
+	private static Scanner in = new Scanner(System.in);
+
+	public static void menu() {
 		String option;
 		do {
 			System.out.println("--MARZ ROVER--\n"+
 						 "1 - Ler dados de um arquivo .txt" +
 						 "\n2 - Inserir dados manualmente."+
 						 "\n3 - Ver atual situação de todos os rovers."+
-						 "\n0 - Sair.");
+						 "\n0 - Sair a qualquer momento.");
 			option = in.next();
 
 			switch (option) {
@@ -39,27 +38,30 @@ public class MarsRover {
 		} while (!option.equals("0"));
 	}
 
-	public void read() {
+	public static void read() {
 		String planSize, roverSituation, roverCommands;
-		do { 
-			System.out.println("Informe o tamanho do plano separando largura e altura por espaço (x y):");
-			planSize = in.nextLine();
-		} while(!loadManager(planSize));
-		
-		do { 
+		do {
+			System.out.print("Informe o tamanho do plano separando largura e altura por espaço (x y):");
+			if((planSize = in.nextLine().trim()).equals("0")) {System.exit(0);}
+		} while (!loadManager(planSize));
+
+		do {
 			System.out.println("Informe a posição inicial do rover e sua direção (x y direção)");
-			roverSituation = in.nextLine();
+			roverSituation = in.nextLine().trim();
+			if(roverSituation.equals("0")) {System.exit(0);}
+
 			System.out.println("Informe as instruções para que o rover explore o plano(Apenas caracteres L, R, M, sem espaços.):");
-			roverCommands = in.nextLine();
-			loadRover(roverSituation, roverCommands);
-		} while(!loadRover(roverSituation, roverCommands));
-		
+			roverCommands = in.nextLine().trim();
+			if(roverCommands.equals("0")) {System.exit(0);}
+		} while (!loadRover(roverSituation, roverCommands));
+		printResults();
 	}
 
-	public void readFile() {
+	public static void readFile() {
 		String fileName;
 		System.out.println("Informe o nome do arquivo:");
 		fileName = in.next();
+		if(fileName.equals("0")) {System.exit(0);}
 		Path path = Paths.get(fileName);
 		try(Scanner reader = new Scanner(Files.newBufferedReader(path, Charset.forName("utf-8")))) {
 			if(loadManager(reader.nextLine().trim()) == false) {
@@ -78,24 +80,27 @@ public class MarsRover {
 		}
 		catch(IOException e) {
 			System.out.println("Arquivo não encontrado.");
+			return;
 		}
 		printResults();
 	}
 
-	public boolean loadRover(String roverSituation, String roverCommands) {
+	public static boolean loadRover(String roverSituation, String roverCommands) {
 		char direction;
 		int x, y;
 
 		if(!roverSituation.matches("\\d+ \\d+ [N|S|E|W]") || !roverCommands.matches("[R|L|M]+")) {
 			return false;
 		}
+
 		String roverSituationSplited [] = roverSituation.split(" ");
 		try {
 			x = Integer.parseInt(roverSituationSplited[0]);
 			y = Integer.parseInt(roverSituationSplited[1]);
-			direction = roverSituationSplited[3].charAt(0);
+			direction = roverSituationSplited[2].charAt(0);
 		}
 		catch(Exception e) {
+			System.out.println("Posição inicial ou direção do rover mal formatados.");
 			return false;
 		}
 		if(!manager.validatePosition(x, y)) {
@@ -106,10 +111,10 @@ public class MarsRover {
 		return true;
 	}
 
-	public boolean loadManager(String upperRightCoordinates) {
+	public static boolean loadManager(String upperRightCoordinates) {
 		int x, y;
 		String splitedCoordinates[] = upperRightCoordinates.split(" ");
-		if(splitedCoordinates.length != 2){
+		if(splitedCoordinates.length != 2) {
 			return false;
 		}
 		try {
@@ -119,14 +124,16 @@ public class MarsRover {
 		catch(Exception e) {
 			return false;
 		}
-		this.manager = new RoverManager(x, y);
+		manager = new RoverManager(x, y);
 		return true;
 	}
 
-	public void printResults() {
+	public static void setManager(RoverManager n) {
+		manager = n;
+	}
+
+	public static void printResults() {
 		System.out.println("Posição de todos os rovers:");
-//		manager.printAllRovers();
-//		Esse método irá printar a situação de cada rover conforme output no enunciado do exercício.
-//		Tais informações serão buscadas na classe RoverManager.
+		manager.toString();
 	}
 }
