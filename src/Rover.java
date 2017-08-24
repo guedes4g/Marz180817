@@ -4,6 +4,11 @@ public class Rover {
 	int x;
 	int y;
 	char direction;
+	RoverManager manager;
+	
+	public void setManager(RoverManager manager) {
+		this.manager = manager;
+	}
 	
 	
 	public Rover() {
@@ -35,46 +40,53 @@ public class Rover {
 	}
 
 	
-	public void updatePosition(char cmd){
-		switch(this.direction){
-			case'N':
-				if(cmd=='R'){
-					this.direction = 'O';
-				} else if(cmd=='L'){
-					this.direction = 'L';
-				} else if(cmd=='M'){
-					this.x +=1;
-				} else {}
+	public void updatePosition(char cmd) {
+		switch (this.direction) {
+			case 'N':
+				if (cmd == 'R')
+					this.direction = 'E';
+				else if (cmd == 'L')
+					this.direction = 'W';
+				else if (cmd == 'M')
+					if (this.manager.validatePosition(this.x, this.y + 1))
+						this.y += 1;
 			break;
 			
-			case'L':
-				if(cmd=='R'){
-					this.direction = 'N';
-				} else if(cmd=='L'){
+			case 'E':
+				if (cmd=='R')
 					this.direction = 'S';
-				} else if(cmd=='M'){
-					this.y +=1;
-				} else {}
-			break;
-			case'S':
-				if(cmd=='R'){
-					this.direction = 'L';
-				} else if(cmd=='L'){
-					this.direction = 'O';
-				} else if(cmd=='M'){
-					this.x -=1;
-				} else {}
-			break;
-			case'O':
-				if(cmd=='R'){
-					this.direction = 'S';
-				} else if(cmd=='L'){
+				else if (cmd == 'L')
 					this.direction = 'N';
-				} else if(cmd=='M'){
-					this.y +=1;
-				} else {}
+				else if (cmd == 'M')
+					if (this.manager.validatePosition(this.x + 1, this.y))
+						this.x += 1;
+			break;
+			
+			case 'S':
+				if (cmd == 'R')
+					this.direction = 'W';
+				else if (cmd == 'L')
+					this.direction = 'E';
+				else if (cmd == 'M')
+					if (this.manager.validatePosition(this.x, this.y - 1))
+						this.y -= 1;
+			break;
+			
+			case 'W':
+				if (cmd == 'R')
+					this.direction = 'N';
+				else if(cmd == 'L')
+					this.direction = 'S';
+				else if(cmd == 'M')
+					if (this.manager.validatePosition(this.x - 1, this.y))
+						this.x -= 1;
 			break;
 		}
+	}
+	
+	public void evaluateCommands(String commands) {
+		for (char cmd : commands.toCharArray())
+			this.updatePosition(cmd);
 	}
 
 }

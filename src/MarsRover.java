@@ -21,8 +21,8 @@ public class MarsRover {
 			System.out.println("--MARZ ROVER--\n"+
 						 "1 - Ler dados de um arquivo .txt" +
 						 "\n2 - Inserir dados manualmente."+
-						 "\n3 - Ver atual situação de todos os rovers."+
-						 "\n0 - Sair a qualquer momento.");
+						 "\n3 - Ver atual situaï¿½ï¿½o de todos os rovers."+
+						 "\n0 - Sair.");
 			option = in.next();
 
 			switch (option) {
@@ -37,6 +37,7 @@ public class MarsRover {
 			}
 		} while (!option.equals("0"));
 	}
+
 
 	public static void read() {
 		String planSize, roverSituation, roverCommands;
@@ -65,7 +66,7 @@ public class MarsRover {
 		Path path = Paths.get(fileName);
 		try(Scanner reader = new Scanner(Files.newBufferedReader(path, Charset.forName("utf-8")))) {
 			if(loadManager(reader.nextLine().trim()) == false) {
-				System.out.println("O tamanho do plano está com formato incorreto.");
+				System.out.println("O tamanho do plano estï¿½ com formato incorreto.");
 				return;
 			}
 			String roverSituation, roverCommands;
@@ -73,13 +74,13 @@ public class MarsRover {
 				roverSituation = reader.nextLine().trim();
 				roverCommands = reader.nextLine().trim();
 				if(loadRover(roverSituation, roverCommands) == false) {
-					System.out.println("Arquivo contém dados inválidos referente aos rovers.");
+					System.out.println("Arquivo contï¿½m dados invï¿½lidos referente aos rovers.");
 					break;
 				}
 			}
 		}
 		catch(IOException e) {
-			System.out.println("Arquivo não encontrado.");
+			System.out.println("Arquivo nï¿½o encontrado.");
 			return;
 		}
 		printResults();
@@ -104,7 +105,7 @@ public class MarsRover {
 			return false;
 		}
 		if(!manager.validatePosition(x, y)) {
-			System.out.println("Posição inicial do rover ja está ocupada ou valores fora das dimensões do plano.");
+			System.out.println("Posiï¿½ï¿½o inicial do rover ja estï¿½ ocupada ou valores fora das dimensï¿½es do plano.");
 			return false;
 		}
 		manager.addRover(x, y, direction, roverCommands);
@@ -132,8 +133,8 @@ public class MarsRover {
 		manager = n;
 	}
 
-	public static void printResults() {
-		System.out.println("Posição de todos os rovers:");
-		manager.toString();
+	public void printResults() {
+		System.out.println("Posiï¿½ï¿½o de todos os rovers:");
+		manager.printAllRovers();
 	}
 }

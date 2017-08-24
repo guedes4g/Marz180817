@@ -1,3 +1,4 @@
+import java.lang.Character;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -27,10 +28,10 @@ public class RoverManager {
 	 */
 	public boolean validatePosition(int x, int y) {
 		// off the board
-		if (x > this.width - 1 || x < 0)
+		if (x > this.width || x < 0)
 			return false;
 		
-		if (y > this.height - 1 || x < 0)
+		if (y > this.height || y < 0)
 			return false;
 		
 		// another rover
@@ -45,14 +46,22 @@ public class RoverManager {
 	 * @param x the x coordinate of the rover's initial position
 	 * @param y the y coordinate of the rover's initial position
 	 * @param direction the direction the rover is point to; case insensitive
-	 * @param commands the String with the commands to be run by the rover tith the specified parameters
+	 * @param commands the String with the commands to be run by the rover with the specified parameters
 	 */
 	public void addRover(int x, int y, char direction, String commands) {
-		Rover rover = new Rover(x, y, direction);
+		Rover rover = new Rover(x, y, Character.toUpperCase(direction));
+		rover.setManager(this);
 		this.rovers.add(rover);
 		
-//		Chamar algum método da Rover para executar os comandos na String commands. Algo como:
-//		rover.evaluateCommands(commands);
+		rover.evaluateCommands(commands.toUpperCase());
+	}
+	
+	/**
+	 * Prints the current position and direction of all the rovers managed.
+	 */
+	public void printAllRovers() {
+		for (Rover rover : this.rovers)
+			System.out.println(rover.getX() + " " + rover.getY() + " " + rover.getDirection());
 	}
 	
 	/**
@@ -63,10 +72,9 @@ public class RoverManager {
 	 * @return true if the position is free; false otherwise
 	 */
 	private boolean isPositionFree(int x, int y) {
-		for (Rover r : this.rovers) {
+		for (Rover r : this.rovers)
 			if (r.x == x && r.y == y)
 				return false;
-		}
 		
 		return true;
 	}
