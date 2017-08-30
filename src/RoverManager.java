@@ -78,4 +78,8 @@ public class RoverManager {
 		
 		return true;
 	}
+
+	public List<Rover> getRovers() {
+		return (List<Rover>) new ArrayList<Rover>(this.rovers);
+	}
 }
